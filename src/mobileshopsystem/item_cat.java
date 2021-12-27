@@ -241,13 +241,16 @@ public class item_cat extends javax.swing.JFrame {
                         
                         JOptionPane.showMessageDialog(this, "Record Delete");
             
-                        table_update();
+                        
                     }
           
             } 
             catch (SQLException ex) {
                 Logger.getLogger(item_cat.class.getName()).log(Level.SEVERE, null, ex);
             } 
+            
+            tblModel.setRowCount(0);
+            table_update();
        
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
