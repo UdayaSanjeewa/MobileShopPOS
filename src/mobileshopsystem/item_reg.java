@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -23,6 +24,7 @@ public class item_reg extends javax.swing.JFrame {
      */
     public item_reg() {
         initComponents();
+        table_update();
     }
     
     private void table_update() {
@@ -35,6 +37,7 @@ public class item_reg extends javax.swing.JFrame {
            
 
             while (Rs.next()) {
+                    String regcode = Rs.getString("reg_id");
                     String itmcode = Rs.getString("item_code");
                     String itmname = Rs.getString("item_name");
                     String itmcat = Rs.getString("category");
@@ -45,7 +48,7 @@ public class item_reg extends javax.swing.JFrame {
                     
                     
                     
-                    String tbData[] = {itmcode,itmname,itmcat,itmsup,itmprice,itmslprice,itmquantity};
+                    String tbData[] = {regcode,itmcode,itmname,itmcat,itmsup,itmprice,itmslprice,itmquantity};
                     DefaultTableModel tblModel = (DefaultTableModel)itemregTbl.getModel();
                     
                     tblModel.addRow(tbData);
@@ -135,15 +138,17 @@ public class item_reg extends javax.swing.JFrame {
 
         itemregTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Item Code", "Item Name", "Category", "Supplier", "Purchase Price", "Sale Price", "Quantity"
+                "Reg_id", "Item Code", "Item Name", "Category", "Supplier", "Purchase Price", "Sale Price", "Quantity"
             }
         ));
+        itemregTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemregTblMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(itemregTbl);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -189,6 +194,11 @@ public class item_reg extends javax.swing.JFrame {
         });
 
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Quantity");
@@ -360,6 +370,61 @@ public class item_reg extends javax.swing.JFrame {
     private void txt_salepriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_salepriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_salepriceActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        DefaultTableModel tblModel = (DefaultTableModel)itemregTbl.getModel();
+        int selectedIndex = itemregTbl.getSelectedRow();
+            try {
+                int id = Integer.parseInt(tblModel.getValueAt(selectedIndex, 0).toString());
+                int dialogResult = JOptionPane.showConfirmDialog (null, "Do you want to Delete the record","Warning",JOptionPane.YES_NO_OPTION);
+                    
+                    if(dialogResult == JOptionPane.YES_OPTION){
+
+                        Connection con = ConnectionProvider.getCon();
+                        Statement st = con.createStatement();
+                        st.executeUpdate("delete from itm_register where reg_id = "+id+" ");
+                        
+                        JOptionPane.showMessageDialog(this, "Record Delete");
+            
+                        
+                    }
+          
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(item_cat.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            
+            tblModel.setRowCount(0);
+            table_update();
+       
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void itemregTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemregTblMouseClicked
+        // TODO add your handling code here:
+        int j = itemregTbl.getSelectedRow();
+        DefaultTableModel tblModel = (DefaultTableModel)itemregTbl.getModel();
+        txt_itmcode.setText(tblModel.getValueAt(j,1).toString());
+        txt_itmname.setText(tblModel.getValueAt(j,2).toString());
+        String comboSub1 = tblModel.getValueAt(j,3).toString();
+        for (int i=0 ; i< txt_itmcat.getItemCount(); i++) {
+            if(txt_itmcat.getItemAt(i).equalsIgnoreCase(comboSub1)){
+               txt_itmcat.setSelectedIndex(i);
+            }
+        }
+        String comboSub2 = tblModel.getValueAt(j,4).toString();
+        for (int k=0 ; k< txt_itmcat.getItemCount(); k++) {
+            if(txt_itmsup.getItemAt(k).equalsIgnoreCase(comboSub2)){
+               txt_itmsup.setSelectedIndex(k);
+            }
+        }
+        
+        txt_purprice.setText(tblModel.getValueAt(j,5).toString());
+        txt_saleprice.setText(tblModel.getValueAt(j,6).toString());
+        txt_quantity.setText(tblModel.getValueAt(j,7).toString());
+        
+    }//GEN-LAST:event_itemregTblMouseClicked
 
     /**
      * @param args the command line arguments
