@@ -5,6 +5,12 @@
  */
 package mobileshopsystem;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.Timer;
+
 /**
  *
  * @author UdayaSanjeewa
@@ -16,7 +22,32 @@ public class main_menu extends javax.swing.JFrame {
      */
     public main_menu() {
         initComponents();
+        dte();
+        tme();
     }
+    
+    public final void dte() {
+        Date d = new Date();
+        SimpleDateFormat adf = new SimpleDateFormat("YYYY/MM/dd");
+        String dd = adf.format(d);
+        txt_date.setText(dd);
+        
+}
+    
+     void tme(){
+        new Timer(0,new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Date dt = new Date();
+                SimpleDateFormat st = new SimpleDateFormat("hh:mm:ss");
+                String tt = st.format(dt);
+                txt_time.setText(tt);
+                
+            }
+        }).start();
+    
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,6 +76,8 @@ public class main_menu extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        txt_date = new javax.swing.JTextField();
+        txt_time = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,25 +203,45 @@ public class main_menu extends javax.swing.JFrame {
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Untitled design.png"))); // NOI18N
         jLabel9.setText("jLabel9");
 
+        txt_date.setEditable(false);
+        txt_date.setPreferredSize(new java.awt.Dimension(100, 30));
+        txt_date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_dateActionPerformed(evt);
+            }
+        });
+
+        txt_time.setEditable(false);
+        txt_time.setPreferredSize(new java.awt.Dimension(80, 30));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jDesktopPane1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(170, 170, 170)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(txt_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_time, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(92, 92, 92)))
                         .addComponent(jButton5))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(84, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addGap(51, 51, 51)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDesktopPane1)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 74, Short.MAX_VALUE)
+                                .addComponent(jLabel8)
+                                .addGap(51, 51, 51)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -202,7 +255,12 @@ public class main_menu extends javax.swing.JFrame {
                 .addComponent(jDesktopPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_time, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel5))
                     .addComponent(jButton5))
                 .addContainerGap())
         );
@@ -231,6 +289,10 @@ public class main_menu extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txt_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_dateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,5 +351,7 @@ public class main_menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField txt_date;
+    private javax.swing.JTextField txt_time;
     // End of variables declaration//GEN-END:variables
 }

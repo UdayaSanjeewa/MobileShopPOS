@@ -58,6 +58,17 @@ public class item_reg extends javax.swing.JFrame {
             Logger.getLogger(item_cat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void clearAllInput(){
+        txt_itmcode.setText("");
+        txt_itmname.setText("");
+        txt_itmcat.setSelectedIndex(0);
+        txt_itmsup.setSelectedIndex(0);
+        txt_purprice.setText("");
+        txt_saleprice.setText("");
+        txt_quantity.setText("");
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -242,14 +253,11 @@ public class item_reg extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_saleprice)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_purprice, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 19, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_purprice, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                            .addComponent(txt_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_saleprice))
+                        .addContainerGap(29, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1)
@@ -356,6 +364,7 @@ public class item_reg extends javax.swing.JFrame {
         
         DefaultTableModel tblModel = (DefaultTableModel)itemregTbl.getModel();
         tblModel.setRowCount(0);
+        clearAllInput();
         table_update();
 
 
@@ -365,6 +374,30 @@ public class item_reg extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String itmcode = txt_itmcode.getText();
+        String itmname = txt_itmname.getText();
+        String itmcat = txt_itmcat.getSelectedItem().toString();
+        String itmsup = txt_itmsup.getSelectedItem().toString();
+        String purprice = txt_purprice.getText();
+        String saleprice = txt_saleprice.getText();
+        String quantity = txt_quantity.getText();
+        
+        try {
+            Connection con = ConnectionProvider.getCon();
+            Statement st = con.createStatement();
+            st.executeUpdate("update itm_register set item_code = '"+itmcode+"',item_name = '"+itmname+"' ,category = '"+itmcat+"',supplier = '"+itmsup+"',purchase_price = '"+purprice+"',sale_price = '"+saleprice+"',quantity = '"+quantity+"' where item_code = '"+itmcode+"' ");
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(item_cat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        DefaultTableModel tblModel = (DefaultTableModel)itemregTbl.getModel();
+        tblModel.setRowCount(0);
+        clearAllInput();
+        table_update();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txt_salepriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_salepriceActionPerformed
@@ -395,6 +428,7 @@ public class item_reg extends javax.swing.JFrame {
             } 
             
             tblModel.setRowCount(0);
+            clearAllInput();
             table_update();
        
 
@@ -410,20 +444,20 @@ public class item_reg extends javax.swing.JFrame {
         String comboSub1 = tblModel.getValueAt(j,3).toString();
         for (int i=0 ; i< txt_itmcat.getItemCount(); i++) {
             if(txt_itmcat.getItemAt(i).equalsIgnoreCase(comboSub1)){
-               txt_itmcat.setSelectedIndex(i);
+                txt_itmcat.setSelectedIndex(i);
             }
         }
         String comboSub2 = tblModel.getValueAt(j,4).toString();
         for (int k=0 ; k< txt_itmcat.getItemCount(); k++) {
             if(txt_itmsup.getItemAt(k).equalsIgnoreCase(comboSub2)){
-               txt_itmsup.setSelectedIndex(k);
+                txt_itmsup.setSelectedIndex(k);
             }
         }
-        
+
         txt_purprice.setText(tblModel.getValueAt(j,5).toString());
         txt_saleprice.setText(tblModel.getValueAt(j,6).toString());
         txt_quantity.setText(tblModel.getValueAt(j,7).toString());
-        
+
     }//GEN-LAST:event_itemregTblMouseClicked
 
     /**
